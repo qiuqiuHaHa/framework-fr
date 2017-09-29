@@ -28,7 +28,7 @@ public interface FrameworkLogonService {
                            String host,
                            String ip,
                            Map<String, String> params,
-                           String capchacode);
+                           String captchaCode);
 
 
 }

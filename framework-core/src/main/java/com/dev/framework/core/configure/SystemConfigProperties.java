@@ -78,4 +78,8 @@ public class SystemConfigProperties {
 
     }
 
+    public static void setProperty(String key, String value){
+        properties.setProperty(key, value);
+    }
+
 }
