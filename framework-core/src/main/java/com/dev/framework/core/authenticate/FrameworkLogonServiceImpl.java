@@ -4,6 +4,7 @@ import com.dev.framework.core.configure.SystemConfigProperties;
 import com.dev.framework.core.execption.ErrorCodeException;
 import com.dev.framework.core.session.CurrentSessionStoreFactory;
 import com.dev.framework.core.session.FrameworkSession;
+import com.dev.framework.core.session.FrameworkSessionImpl;
 import com.dev.framework.core.shiro.RuntimeAuthenticationException;
 import com.dev.framework.core.shiro.ServiceAuthenticationException;
 import com.dev.framework.core.util.Constants;
@@ -18,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import scala.collection.immutable.Stream;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -117,9 +116,29 @@ public class FrameworkLogonServiceImpl implements FrameworkLogonService {
 
         setPermissionCache(subject);
 
+        FrameworkSession frameworkSession
+                = new FrameworkSessionImpl(subject.getSession(),
+                subject,
+                subject.getPrincipal().toString());
+
+        CurrentSessionStoreFactory.getCurrentSessionStore()
+                .setCurrentSession(frameworkSession);
 
 
-        return null;
+        String callbackNames = SystemConfigProperties.getProperty(Constants.LOGON_CALL_BACKS);
+        if(callbackNames == null){
+            logger.debug("回调类为空，无法创建回调类。");
+            return frameworkSession;
+        }
+        String[] callbackArrays = callbackNames.split(Constants.COMMA);
+        for(String s : callbackArrays){
+            if(s != null  && !Constants.EMPTY_STRING.equals(s.trim())){
+                LogonCallback logonCallback = (LogonCallback) applicationContext.getBean(s);
+                logonCallback.callback(frameworkSession, subject);
+            }
+        }
+
+        return frameworkSession;
     }
 
     /**

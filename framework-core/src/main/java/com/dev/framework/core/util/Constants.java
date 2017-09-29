@@ -29,4 +29,25 @@ public class Constants {
      */
     public static final String REALM_BEAN_NAME = "realm_bean_name";
 
+    /**
+     * 以逗号分割， 分隔符
+     */
+    public static final String COMMA = ",";
+
+    /**
+     * 登录回调名称
+     */
+    public static final String LOGON_CALL_BACKS = "logon_callback_names";
+
+    /**
+     * 空字符
+     */
+    public static final String EMPTY_STRING = "";
+
+    /**
+     * 登出回调名称
+     */
+    public static final String LOGOUT_CALL_BACKS = "logout_callback_names";
+
+
 }
