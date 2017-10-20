@@ -19,7 +19,7 @@ public interface FrameworkLogonService {
      * @param host  host账号
      * @param ip    ip地址
      * @param params    参数
-     * @param capchacode    验证码
+     * @param captchaCode    验证码
      * @return
      */
     FrameworkSession login(String username,

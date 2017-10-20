@@ -49,5 +49,6 @@ public class Constants {
      */
     public static final String LOGOUT_CALL_BACKS = "logout_callback_names";
 
+    public static final String CACHE_EXPIRE = "cache_expire";
 
 }
